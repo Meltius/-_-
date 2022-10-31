@@ -10,6 +10,14 @@
   
   
   
+  .inverted {
+    color: black;
+    background: white;
+    border: 1px solid black;
+  }
+  
+  
+  
   /* 글로벌 CSS를 작성하고 싶다면 */
   
   
