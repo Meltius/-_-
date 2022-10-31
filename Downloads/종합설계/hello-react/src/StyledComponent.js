@@ -1,3 +1,8 @@
+import styled from 'styled-components';
+ 
+const MyComponent = styled.div`
+  font-size: 2rem;
+`;
 import React from ‘react‘;
 import styled, { css } from ‘styled-components‘;
 
