@@ -1,11 +1,8 @@
-import React from ‘react‘;
-import Info from ‘./Info‘;
-
-
+import React from 'react';
+import Average from './Average';
+ 
 const App = () => {
-  return <Info />;
+  return <Average />;
 };
-
-
-
+ 
 export default App;
