@@ -3,8 +3,8 @@ import ‘./App.css‘;
 
 
 function App() {
-  const name = undefined;
-  return name;
+const name = undefined;
+return name || ‘값이 undefined입니다.‘;
 }
 
 
