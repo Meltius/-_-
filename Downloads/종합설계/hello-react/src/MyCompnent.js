@@ -1,5 +1,7 @@
-import React from 'react';
- 
+import React from ‘react‘;
+import PropTypes from ‘prop-types‘;
+
+
 const MyComponent = ({ name, children }) => {
   return (
     <div>
