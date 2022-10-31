@@ -1,16 +1,18 @@
-import React from 'react';
-import { MdAdd } from 'react-icons/md';
-import './TodoInsert.scss';
- 
-const TodoInsert = () => {
+import React from 'react‘;
+import TodoListItem from './TodoListItem';
+import './TodoList.scss';
+
+
+const TodoList = () => {
   return (
-    <form className="TodoInsert">
-      <input placeholder="할 일을 입력하세요" />
-      <button type="submit">
-        <MdAdd />
-      </button>
-    </form>
+    <div className="TodoList">
+      <TodoListItem />
+      <TodoListItem />
+      <TodoListItem />
+    </div>
   );
 };
- 
-export default TodoInsert;
+
+
+
+export default TodoList;
