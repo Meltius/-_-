@@ -11,7 +11,7 @@ const Info = () => {
       console.log(‘cleanup‘);
       console.log(name);
     };
-  });
+  }, []);
  
   const onChangeName = e => {
     setName(e.target.value);
