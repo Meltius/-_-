@@ -59,83 +59,35 @@ const Footer = styled.div</span>
 
 
 
-const AuthForm = () => {
-  return (
-    <AuthFormBlock>
-      <h3>로그인</h3>
-      <form>
-        <StyledInput autoComplete="username" name="username" placeholder="아이디" />
-        <StyledInput 
-          autoComplete="new-password" 
-          name="password" 
-          placeholder="비밀번호" 
-          type="password" 
-        />
-        <Button cyan fullWidth>
-          로그인
-        </Button>
-      </form>
-      <Footer>
-        <Link to="/register">회원가입</Link>
-      </Footer>
-    </AuthFormBlock>
-  );
-};
-
-const ButtonWithMarginTop = styled(Button)</span>
-  <span class="cd2 co33">margin-top</span><span class="cd2 co34">:</span> <span class="cd2 co32">1rem</span><span class="cd2 co33">;</span>
-<span class="cd2 co31">;
-
-
-const AuthForm = () => {
-  return (
-    <AuthFormBlock>
-      <h3>로그인</h3>
-      <form>
-        <StyledInput autoComplete="username" name="username" placeholder="아이디" />
-        <StyledInput
-          autoComplete="new-password"
-          name="password"
-          placeholder="비밀번호"
-          type="password"
-        />
-        <ButtonWithMarginTop cyan fullWidth>
-          로그인
-        </ButtonWithMarginTop>
-      </form>
-      <Footer>
-        <Link to="/register">회원가입</Link>
-      </Footer>
-    </AuthFormBlock>
-  );
-};
-
-
-const textMap = {
-  login: ‘로그인‘,
-  register: ‘회원가입‘,
-};
-
-
-const AuthForm = ({ type }) => {
+const AuthForm = ({ type, form, onChange, onSubmit }) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
       <h3>{text}</h3>
-      <form>
-        <StyledInput autoComplete="username" name="username" placeholder="아이디" />
+      <form onSubmit={onSubmit}>
+        <StyledInput
+          autoComplete="username"
+          name="username"
+          placeholder="아이디"
+          onChange={onChange}
+          value={form.username}
+        />
         <StyledInput
           autoComplete="new-password"
           name="password"
           placeholder="비밀번호"
           type="password"
+          onChange={onChange}
+          value={form.password}
         />
         {type = = = ‘register‘ && (
           <StyledInput
-            autoComplete="new-password" 
+            autoComplete="new-password"
             name="passwordConfirm"
             placeholder="비밀번호 확인"
             type="password"
+            onChange={onChange}
+            value={form.passwordConfirm}
           />
         )}
         <ButtonWithMarginTop cyan fullWidth style={{ marginTop: '1rem' }}>
@@ -152,7 +104,6 @@ const AuthForm = ({ type }) => {
     </AuthFormBlock>
   );
 };
-
 
 
 export default AuthForm;
