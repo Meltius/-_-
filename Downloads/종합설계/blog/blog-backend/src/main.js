@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 
 import api from './api';
+import jwtMiddleware from './lib/jwtMiddleware';
 import createFakeData from './createFakeData';
 
 
@@ -23,13 +24,7 @@ mongoose
   })
   .catch(e => {
     console.error(e);
-});
-
-
-const api = require('./api');
-
-
-
+  });
 const app = new Koa();
 const router = new Router();
 
@@ -42,6 +37,7 @@ router.use('/api', api.routes()); // api 라우트 적용
 
 // 라우터 적용 전에 bodyParser 적용
 app.use(bodyParser());
+app.use(jwtMiddleware);
 
 
 
