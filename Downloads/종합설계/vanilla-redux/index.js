@@ -1,3 +1,4 @@
+import { createStore } from 'redux';
 const divToggle = document.querySelector('.toggle');
 const counter = document.querySelector('h1');
 const btnIncrease = document.querySelector('#id');
@@ -46,3 +47,4 @@ function reducer(state = initialState, action) {
       return state;
   }
 }
+import { createStore } from 'redux';
