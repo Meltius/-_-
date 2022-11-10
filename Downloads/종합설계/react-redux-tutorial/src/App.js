@@ -1,20 +1,17 @@
 import React from 'react';
+import Counter from './components/Counter';
+import Todos from './components/Todos';
 
-
-const Counter = ({ number, onIncrease, onDecrease }) => {
+const App = () => {
   return (
     <div>
-      <h1>{number}</h1>
-      <div>
-        <button onClick={onIncrease}>+1</button>
-        <button onClick={onDecrease}>-1</button>
-      </div>
+      <Counter number={0} />
+      <hr />
+      <Todos />
     </div>
   );
 };
 
-
-
-export default Counter;
+export default App;
 
 
