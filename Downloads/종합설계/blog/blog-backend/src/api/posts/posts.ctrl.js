@@ -83,29 +83,9 @@ export const list = async ctx => {
   }
 };
 
-export const read = async ctx => {
-    const { id } = ctx.params;
-    try {
-      const post = await Post.findById(id).exec();
-      if (!post) {
-        ctx.status = 404; // Not Found
-        return;
-      }
-      ctx.body = post;
-    } catch (e) {
-      ctx.throw(500, e);
-    }
-  };
-
-  export const remove = async ctx => {
-    const { id } = ctx.params;
-    try {
-      await Post.findByIdAndRemove(id).exec();
-      ctx.status = 204; // No Content (성공하기는 했지만 응답할 데이터는 없음)
-    } catch (e) {
-      ctx.throw(500, e);
-    }
-  };
+export const read = ctx => {
+  ctx.body = ctx.state.post;
+};
 
   export const update = async ctx => {
     const { id } = ctx.params;
@@ -160,6 +140,15 @@ export const read = async ctx => {
   } catch (e) {
     ctx.throw(500, e);
   }
+};
+
+export const checkOwnPost = (ctx, next) => {
+  const { user, post } = ctx.state;
+  if (post.user._id.toString() != = user._id) {
+    ctx.status = 403;
+    return;
+  }
+  return next();
 };
 
   
