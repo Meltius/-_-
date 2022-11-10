@@ -33,19 +33,17 @@ const { username, password } = ctx.request.body;
 
 
 
-<span class="cd2 co46">const</span> <span class="cd2 co32">user</span> <span class="cd2 co47">=</span> <span class="cd2 co46">new</span> <span class="cd2 co48">User</span><span class="cd2 co33">({</span>
-  <span class="cd2 co33">username,</span>
-<span class="cd2 co33">});</span>
-<span class="cd2 co46">await</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">setPassword</span><span class="cd2 co33">(password);</span> <span class="cd2 co44">// </span><span class="cd2 co44">비밀번호</span><span class="cd2 co44"> </span><span class="cd2 co44">설정</span>
-<span class="cd2 co46">await</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">save</span><span class="cd2 co33">();</span> <span class="cd2 co44">// </span><span class="cd2 co44">데이터베이스에</span><span class="cd2 co44"> </span><span class="cd2 co44">저장</span>
+<span class="co46">const</span> <span class="co32">user</span> <span class="co35">=</span> <span class="co46">new</span> <span class="co48">User</span><span class="co33">({</span>
+  <span class="co33">username,</span>
+<span class="co33">});</span>
+<span class="co46">await</span> <span class="co34">user</span><span class="co33">.</span><span class="co47">setPassword</span><span class="co33">(password);</span> <span class="co44">// 비밀번호 설정</span>
+<span class="co46">await</span> <span class="co34">user</span><span class="co33">.</span><span class="co47">save</span><span class="co33">();</span> <span class="co44">// 데이터베이스에 저장</span>
 
-<span class="cd2 co44">// </span><span class="cd2 co44">응답할</span><span class="cd2 co44"> </span><span class="cd2 co44">데이터에서</span><span class="cd2 co44"> hashedPassword </span><span class="cd2 co44">필드</span><span class="cd2 co44"> </span><span class="cd2 co44">제거</span>
-<span class="cd2 co46">const</span> <span class="cd2 co32">data</span> <span class="cd2 co47">=</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">toJSON</span><span class="cd2 co33">();</span>
-<span class="cd2 co47">delete</span> <span class="cd2 co34">data</span><span class="cd2 co33">.</span><span class="cd2 co34">hashedPassword</span><span class="cd2 co33">;</span>
-<span class="cd2 co34">ctx</span><span class="cd2 co33">.</span><span class="cd2 co34">body</span> <span class="cd2 co47">=</span> <span class="cd2 co33">data;</span>
+<span class="co34">ctx</span><span class="co33">.</span><span class="co34">body</span> <span class="co35">=</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">serialize</span><span class="cd2 co33">();</span>
 
 
 } catch (e) {
     ctx.throw(500, e);
   }
 };
+
