@@ -13,24 +13,14 @@ import PreloadContext from './lib/PreloadContext';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
 import { END } from 'redux-saga';
+import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
 
 
-// asset-manifest.json에서 파일 경로들을 조회합니다.
-const manifest = JSON.parse(
-  fs.readFileSync(path.resolve('./build/asset-manifest.json'), 'utf8')
-);
-
-
-
-const chunks = Object.keys(manifest.files)
-  .filter(key => /chunk</span>.js$/.exec(key)) // chunk.js로 끝나는 키를 찾아서
-  .map(key => &lt;script src=</span><span class="cd2 co31">"</span><span class="co49">${</span><span class="cd2 co33">manifest[key]</span><span class="co49">&rbrace;</span><span class="cd2 co31">"</span><span class="cd2 co31">&gt;&lt;/script&gt;) // 스크립트 태그로 변환하고
-  .join(“); // 합침
+const statsFile = path.resolve('./build/loadable-stats.json');
 
 
 
-
-  function createPage(root, stateScript) {
+function createPage(root, tags) {
   return &lt;!DOCTYPE html&gt;</span>
 <span class="co31">  &lt;html lang=</span><span class="co31">"</span><span class="co31">en</span><span class="co31">"</span><span class="co31">&gt;</span>
 <span class="co31">  &lt;head&gt;</span>
@@ -42,17 +32,15 @@ const chunks = Object.keys(manifest.files)
 <span class="co31">    /&gt;</span>
 <span class="co31">    &lt;meta name=</span><span class="co31">"</span><span class="co31">theme-color</span><span class="co31">"</span><span class="co31"> content=</span><span class="co31">"</span><span class="co31">#000000</span><span class="co31">"</span><span class="co31"> /&gt;</span>
 <span class="co31">    &lt;title&gt;React App&lt;/title&gt;</span>
-<span class="co31">    &lt;link href=</span><span class="co31">"</span><span class="co49">${</span><span class="co33">manifest[</span><span class="co31">'</span><span class="co31">main.css</span><span class="co31">'</span><span class="co33">]</span><span class="co49">}</span><span class="co31">"</span><span class="co31"> rel=</span><span class="co31">"</span><span class="co31">stylesheet</span><span class="co31">"</span><span class="co31"> /&gt;</span>
+<span class="cd2 co31">    </span><span class="co49">${</span><span class="cd2 co34">tags</span><span class="cd2 co31">.</span><span class="cd2 co34">styles</span><span class="co49">}</span>
+<span class="cd2 co31">    </span><span class="co49">${</span><span class="cd2 co34">tags</span><span class="cd2 co31">.</span><span class="cd2 co34">links</span><span class="co49">}</span>
 <span class="co31">  &lt;/head&gt;</span>
 <span class="co31">  &lt;body&gt;</span>
 <span class="co31">    &lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;</span>
 <span class="co31">    &lt;div id=</span><span class="co31">"</span><span class="co31">root</span><span class="co31">"</span><span class="co31">&gt;</span>
       <span class="co49">${</span><span class="co34">root</span><span class="co49">}</span>
 <span class="co31">    &lt;/div&gt;</span>
-<span class="cd2 co31">    </span><span class="co49">${</span><span class="cd2 co33">stateScript</span><span class="co33">}</span>
-<span class="co31">    &lt;script src=</span><span class="co31">"</span><span class="co49">${</span><span class="co33">manifest[</span><span class="co31">'</span><span class="co31">runtime~main.js</span><span class="co31">'</span><span class="co33">]</span><span class="co49">}</span><span class="co31">"</span><span class="co31">&gt;&lt;/script&gt;</span>
-    <span class="co49">${</span><span class="co33">chunks</span><span class="co49">}</span>
-<span class="co31">    &lt;script src=</span><span class="co31">"</span><span class="co49">${</span><span class="co33">manifest[</span><span class="co31">'</span><span class="co31">main.js</span><span class="co31">'</span><span class="co33">]</span><span class="co49">}</span><span class="co31">"</span><span class="co31">&gt;&lt;/script&gt;</span>
+<span class="cd2 co31">    </span><span class="co49">${</span><span class="cd2 co34">tags</span><span class="cd2 co31">.</span><span class="cd2 co34">scripts</span><span class="co49">}</span>
 <span class="co31">  &lt;/body&gt;</span>
 <span class="co31">  &lt;/html&gt;</span>
 <span class="co31">;
@@ -87,14 +75,24 @@ const preloadContext = {
     done: false,
     promises: []
   };
-  const jsx = (
-    <PreloadContext.Provider value={preloadContext}>
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={context}>
-          <App />
-        </StaticRouter>
-      </Provider>
-    </PreloadContext.Provider>
+
+
+
+// 필요한 파일을 추출하기 위한 ChunkExtractor
+  const extractor = new ChunkExtractor({ statsFile });
+
+
+
+const jsx = (
+    <ChunkExtractorManager extractor={extractor}>
+      <PreloadContext.Provider value={preloadContext}>
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={context}>
+            <App />
+          </StaticRouter>
+        </Provider>
+      </PreloadContext.Provider>
+    </ChunkExtractorManager>
   );
 
 
@@ -116,7 +114,16 @@ ReactDOMServer.renderToStaticMarkup(jsx); // renderToStaticMarkup으로 한번 �
 
 
 
-res.send(createPage(root, stateScript)); // 결과물을 응답합니다.
+// 미리 불러와야 하는 스타일/스크립트를 추출하고
+  const tags = {
+    scripts: stateScript + extractor.getScriptTags(), // 스크립트 앞부분에 리덕스 상태 넣기
+    links: extractor.getLinkTags(),
+    styles: extractor.getStyleTags()
+  };
+
+
+
+res.send(createPage(root, tags)); // 결과물을 응답합니다.
 };
 
 
