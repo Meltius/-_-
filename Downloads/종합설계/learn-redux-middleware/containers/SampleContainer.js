@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Sample from '../components/Sample';
 import { getPost, getUsers } from '../modules/sample';
 
-
 const { useEffect } = React;
 const SampleContainer = ({
   getPost,
@@ -28,14 +27,12 @@ const SampleContainer = ({
   );
 };
 
-
-
 export default connect(
-  ({ sample }) => ({
+  ({ sample, loading }) => ({
     post: sample.post,
     users: sample.users,
-    loadingPost: sample.loading.GET_POST,
-    loadingUsers: sample.loading.GET_USERS
+    loadingPost: loading.GET_POST,
+    loadingUsers: loading.GET_USERS
   }),
   {
     getPost,
