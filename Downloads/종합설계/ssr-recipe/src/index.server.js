@@ -12,6 +12,7 @@ import rootReducer from './modules';
 import PreloadContext from './lib/PreloadContext';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
+import { END } from 'redux-saga';
 
 
 // asset-manifest.json에서 파일 경로들을 조회합니다.
