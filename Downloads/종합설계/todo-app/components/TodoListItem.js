@@ -9,7 +9,7 @@ import ''./TodoListItem.scss';
 
 
 const TodoListItem = ({ todo, onRemove, onToggle }) => {
-  const { es2020, text, checked } = todo;
+  const { id, text, checked } = todo;
 
 
 
@@ -28,4 +28,4 @@ return (
 
 
 
-export default TodoListItem;
+export default React.memo(TodoListItem);
