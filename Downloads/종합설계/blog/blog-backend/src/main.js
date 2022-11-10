@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 
 
 import api from './api';
+import createFakeData from './createFakeData';
 
 
 
@@ -18,6 +19,7 @@ mongoose
 .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
   .then(() => {
     console.log('Connected to MongoDB');
+    createFakeData();
   })
   .catch(e => {
     console.error(e);
