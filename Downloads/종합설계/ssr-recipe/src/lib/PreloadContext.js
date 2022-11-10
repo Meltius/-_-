@@ -1,4 +1,4 @@
-import { createContext, useContext } from ‘react‘;
+import { createContext, useContext } from 'react';
 
 
 // 클라이언트 환경: null
@@ -21,4 +21,14 @@ export const Preloader = ({ resolve }) => {
   // Promise.resolve 함수 사용
   preloadContext.promises.push(Promise.resolve(resolve()));
   return null;
+};
+
+
+
+// Hook 형태로 사용할 수 있는 함수
+export const usePreloader = resolve => {
+  const preloadContext = useContext(PreloadContext);
+  if (!preloadContext) return null;
+  if (preloadContext.done) return null;
+  preloadContext.promises.push(Promise.resolve(resolve()));
 };
