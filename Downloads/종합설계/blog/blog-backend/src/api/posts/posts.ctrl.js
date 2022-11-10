@@ -1,11 +1,12 @@
-/
-  POST /api/posts
-  {
-    title: '제목',
-    body: '내용',
-    tags: ['태그1', '태그2']
+export const list = async ctx => {
+  try {
+    const posts = await Post.find().exec();
+    ctx.body = posts;
+  } catch (e) {
+    ctx.throw(500, e);
   }
-/
+};
+
 export const write = async ctx => {
   const { title, body, tags } = ctx.request.body;
   const post = new Post({
