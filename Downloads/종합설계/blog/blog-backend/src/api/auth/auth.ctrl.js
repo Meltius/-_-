@@ -1,5 +1,5 @@
-import Joi from ‘joi‘;
-import User from ‘../../models/user‘;
+import Joi from 'joi';
+import User from '../../models/user';
 
 
 
@@ -16,7 +16,7 @@ export const register = async ctx => {
   const result = Joi.validate(ctx.request.body, schema);
   if (result.error) {
     ctx.status = 400;
-    ctx.body = result.error;
+    ctx.body = user.serialize();
     return;
   }
 
@@ -33,19 +33,19 @@ const { username, password } = ctx.request.body;
 
 
 
-<span class="co46">const</span> <span class="co32">user</span> <span class="co35">=</span> <span class="co46">new</span> <span class="co48">User</span><span class="co33">({</span>
-  <span class="co33">username,</span>
-<span class="co33">});</span>
-<span class="co46">await</span> <span class="co34">user</span><span class="co33">.</span><span class="co47">setPassword</span><span class="co33">(password);</span> <span class="co44">// 비밀번호 설정</span>
-<span class="co46">await</span> <span class="co34">user</span><span class="co33">.</span><span class="co47">save</span><span class="co33">();</span> <span class="co44">// 데이터베이스에 저장</span>
-
-<span class="co34">ctx</span><span class="co33">.</span><span class="co34">body</span> <span class="co35">=</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">serialize</span><span class="cd2 co33">();</span>
+<span class="cd2 co46">const</span> <span class="cd2 co32">token</span> <span class="cd2 co47">=</span> <span class="cd2 co34">user</span><span class="cd2 co33">.</span><span class="cd2 co47">generateToken</span><span class="cd2 co33">();</span>
+<span class="cd2 co34">ctx</span><span class="cd2 co33">.</span><span class="cd2 co34">cookies</span><span class="cd2 co33">.</span><span class="cd2 co47">set</span><span class="cd2 co33">(</span><span class="cd2 co31">'</span><span class="cd2 co31">access_token</span><span class="cd2 co31">'</span><span class="cd2 co33">,</span> <span class="cd2 co33">token,</span> <span class="cd2 co33">{</span>
 
 
-} catch (e) {
+      maxAge: 1000  60  60  24  7, // 7일
+      httpOnly: true,
+    });
+  } catch (e) {
     ctx.throw(500, e);
   }
 };
+
+
 
 export const login = async ctx => {
   const { username, password } = ctx.request.body;
@@ -73,6 +73,11 @@ try {
       return;
     }
     ctx.body = user.serialize();
+    const token = user.generateToken();
+    ctx.cookies.set('access_token', token, {
+      maxAge: 1000  60  60  24  7, // 7일
+      httpOnly: true,
+    });
   } catch (e) {
     ctx.throw(500, e);
   }
