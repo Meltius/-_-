@@ -37,12 +37,17 @@ export const list = async ctx => {
         .exec();
       const postCount = await Post.countDocuments().exec();
       ctx.set('Last-Page', Math.ceil(postCount / 10));
-      ctx.body = posts;
+      ctx.body = posts
+        .map(post => post.toJSON())
+        .map(post => ({
+          ...post,
+          body:
+            post.body.length < 200 ? post.body : </span><span class="co49">${</span><span class="cd2 co34">post</span><span class="cd2 co31">.</span><span class="cd2 co34">body</span><span class="cd2 co31">.</span><span class="cd2 co47">slice</span><span class="cd2 co33">(</span><span class="cd2 co32">0</span><span class="cd2 co33">,</span><span class="cd2 co31"> </span><span class="cd2 co32">200</span><span class="cd2 co33">)</span><span class="co33">}</span><span class="cd2 co31">...,
+        }));
     } catch (e) {
       ctx.throw(500, e);
     }
   };
-
 export const write = async ctx => {
     const schema = Joi.object().keys({
       // 객체가 다음 필드를 가지고 있음을 검증
