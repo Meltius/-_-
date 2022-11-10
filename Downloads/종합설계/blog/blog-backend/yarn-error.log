@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\BCH\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add joi
+  C:\Program Files\nodejs\node.exe C:\Users\BCH\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add bcrypt
 
 PATH: 
   C:\Users\BCH\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\BCH\bin;C:\Python311\Scripts;C:\Python311;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Subversion\bin;C:\Program Files\TortoiseSVN\bin;C:\Program Files\dotnet;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\TortoiseGit\bin;C:\Users\BCH\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\Users\BCH\AppData\Roaming\npm;C:\Users\BCH\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
