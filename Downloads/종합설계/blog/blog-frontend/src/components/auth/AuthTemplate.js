@@ -1,38 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-{
-    "Styled React Functional Component": {
-      "prefix": "srfc",
-      "body": [
-        "import React from 'react';",
-        "import styled from 'styled-components';",
-        "",
-        "const ${TM_FILENAME_BASE}Block = styled.div``;",
-        "",
-        "const ${TM_FILENAME_BASE} = () => {",
-        "  return (",
-        "    <${TM_FILENAME_BASE}Block>",
-        "      ",
-        "    </${TM_FILENAME_BASE}Block>",
-        "  );",
-        "};",
-        "",
-        "export default ${TM_FILENAME_BASE};",
-        ""
-      ],
-      "description": "Styled React Functional Component"
-    }
-    }
-    
-const ${TM_FILENAME_BASE}Block = styled.div``;
 
-const ${TM_FILENAME_BASE} = () => {
-return (
-  <${TM_FILENAME_BASE}Block>
-    
-  </${TM_FILENAME_BASE}Block>
-);
+/**
+ * 회원가입/로그인 페이지의 레이아웃을 담당하는 컴포넌트입니다.
+ */
+
+
+
+const AuthTemplateBlock = styled.div``;
+
+
+
+const AuthTemplate = ({ children }) => {
+  return <AuthTemplateBlock>{children}</AuthTemplateBlock>;
 };
 
-export default ${TM_FILENAME_BASE};
+
+
+export default AuthTemplate;
