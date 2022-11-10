@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
+import user, { check } from '../../modules/user';
 
 
 const RegisterForm = () => {
@@ -10,6 +11,7 @@ const RegisterForm = () => {
     form: auth.register,
     auth: auth.auth,
     authError: auth.authError
+    user:user.user
   }));
 
 
@@ -43,19 +45,23 @@ const RegisterForm = () => {
     if (auth) {
       console.log('회원가입 성공');
       console.log(auth);
+      dispatch(check());
     }
-  }, [auth, authError]);
+  }, [auth, authError,dispatch]);
 
 
 
-return (
-    <AuthForm
-      type="register"
-      form={form}
-      onChange={onChange}
-      onSubmit={onSubmit}
-    />
-  );
+// user 값이 잘 설정되었는지 확인
+useEffect(() => {
+    if (user) {
+      console.log('check API 성공');
+      console.log(user);
+    }
+  }, [user]);
+
+
+
+return (...);
 };
 
 
