@@ -29,19 +29,28 @@ export const list = async ctx => {
   
   
   
+  const { tag, username } = ctx.query;
+    // tag, username 값이 유효하면 객체 안에 넣고, 그렇지 않으면 넣지 않음
+    const query = {
+      ...(username ? { 'user.username': username } : {}),
+      ...(tag ? { tags: tag } : {}),
+    };
+  
+  
+  
   try {
-      const posts = await Post.find()
+      const posts = await Post.find(query)
         .sort({ _id: -1 })
         .limit(10)
         .skip((page - 1) * 10)
         .lean()
         .exec();
-      const postCount = await Post.countDocuments().exec();
+      const postCount = await Post.countDocuments(query).exec();
       ctx.set('Last-Page', Math.ceil(postCount / 10));
       ctx.body = posts.map(post => ({
-        …post,
+        ...post,
         body:
-          post.body.length < 200 ? post.body : </span><span class="co49">${</span><span class="cd2 co34">post</span><span class="cd2 co31">.</span><span class="cd2 co34">body</span><span class="cd2 co31">.</span><span class="cd2 co47">slice</span><span class="cd2 co33">(</span><span class="cd2 co32">0</span><span class="cd2 co33">,</span><span class="cd2 co31"> </span><span class="cd2 co32">200</span><span class="cd2 co33">)</span><span class="co33">}</span><span class="cd2 co31">...,
+          post.body.length < 200 ? post.body : </span><span class="co49">${</span><span class="co34">post</span><span class="co31">.</span><span class="co34">body</span><span class="co31">.</span><span class="co47">slice</span><span class="co33">(</span><span class="co32">0</span><span class="co33">,</span> <span class="co32">200</span><span class="co33">)</span><span class="co49">}</span><span class="co31">...,
       }));
     } catch (e) {
       ctx.throw(500, e);
