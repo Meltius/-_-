@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
@@ -9,7 +9,7 @@ function createBulkTodos() {
   for (let i = 1; i <= 2500; i++) {
     array.push({
       id: i,
-      text: </span><span class="cd2 co31">할</span> <span class="cd2 co31">일</span> <span class="cd2 co49">${</span><span class="cd2 co33">i</span><span class="cd2 co49">}</span><span class="cd2 co31">,
+      text: </span><span class="co31">할</span> <span class="co31">일</span> <span class="co49">${</span><span class="co33">i</span><span class="co49">}</span><span class="co31">,
       checked: false,
     });
   }
@@ -25,11 +25,44 @@ const App = () => {
 
 // 고윳값으로 사용될 id
   // ref를 사용하여 변수 담기
-  const nextId = useRef(2501);
+  const nextId = useRef(4);
 
 
 
-(…)
+const onInsert = useCallback(text => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    setTodos(todos => todos.concat(todo));
+    nextId.current += 1; // nextId 1씩 더하기
+  }, []);
+
+
+
+const onRemove = useCallback(id => {
+    setTodos(todos => todos.filter(todo => todo.id != = id));
+  }, []);
+
+
+
+const onToggle = useCallback(id => {
+    setTodos(todos =>
+      todos.map(todo =>
+        todo.id === id ? { …todo, checked: !todo.checked } : todo,
+      ),
+    );
+  }, []);
+
+
+
+return (
+    <TodoTemplate>
+      <TodoInsert onInsert={onInsert} />
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
+    </TodoTemplate>
+  );
 };
 
 
